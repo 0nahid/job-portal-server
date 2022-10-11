@@ -17,15 +17,18 @@
     "ts-node-dev": "^2.0.0"
   },
   "dependencies": {
+    "@types/bcrypt": "^5.0.0",
     "@types/color": "^3.0.3",
     "@types/mongoose": "^5.11.97",
     "@types/validator": "^13.7.6",
+    "bcrypt": "^5.1.0",
     "colors": "^1.4.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.5",
     "dotenv": "^16.0.2",
     "ejs": "^3.1.8",
     "express": "^4.18.1",
+    "password-validator": "^5.3.0",
     "pino": "^8.6.1",
     "pino-pretty": "^9.1.1",
     "typescript": "^4.8.2",
