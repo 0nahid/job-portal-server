@@ -38,5 +38,7 @@ const jobSchema = new Schema({
       },
     },
   },
+},{
+  timestamps: true
 });
 export default jobSchema;
