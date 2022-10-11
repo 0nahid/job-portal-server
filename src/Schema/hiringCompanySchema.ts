@@ -42,7 +42,6 @@ const highringCompanySchema = new Schema({
     validate: [validator.isMobilePhone, "Please enter a valid phone number"],
   },
   hiringManager: {
-    name: String,
     id: {
       type: ObjectId,
       ref: "User",
