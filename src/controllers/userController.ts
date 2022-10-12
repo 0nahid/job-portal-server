@@ -131,7 +131,7 @@ const confirmUser = async (req: Request, res: Response) => {
   try {
     const { token, email } = req.query;
 
-    log.info(`token: ${token}, email: ${email}`);
+    // log.info(`token: ${token}, email: ${email}`);
     if (!token || !email) {
       return res.status(400).send({
         message: "Token and email required",
@@ -210,7 +210,31 @@ const getMe = async (req: Request, res: Response) => {
       error: error,
     });
   }
-}
+};
 
+// get the hr lists
+const getHrList = async (req: Request, res: Response) => {
+  try {
+    const hrList = await User.find({ role: "hr" });
+    res.status(200).json({
+      message: "All hr list",
+      status: 200,
+      data: hrList,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal Server Error",
+      status: 500,
+      error: error,
+    });
+  }
+};
 
-export const userRouter = { signUp, login, confirmUser , getAllUsers, getMe };
+export const userRouter = {
+  signUp,
+  login,
+  confirmUser,
+  getAllUsers,
+  getMe,
+  getHrList,
+};
