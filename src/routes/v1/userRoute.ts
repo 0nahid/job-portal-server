@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { userRouter } from "../../controllers/userController";
+import { verifyToken } from "../../middlewares/verifyToken";
 
 const router: Router = Router();
 
@@ -11,6 +12,6 @@ router.get("/user/confirm", userRouter.confirmUser);
 
 router.get("/users/all", userRouter.getAllUsers);
 
-router.get("/users/me", userRouter.getMe);
+router.get("/users/me",verifyToken, userRouter.getMe);
 
 export default router;
