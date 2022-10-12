@@ -26,6 +26,12 @@ const availableJobsSchema = new Schema(
         ref: "User",
       },
     },
+    jobId: {
+      id: {
+        type: ObjectId,
+        ref: "Job",
+      },
+    },
     jobType: {
       type: String,
       required: true,
@@ -51,6 +57,7 @@ const availableJobsSchema = new Schema(
           message:
             "Please select the correct status for job, it must be either open or closed",
         },
+        default: "open",
       },
     },
     skills: {
@@ -58,6 +65,9 @@ const availableJobsSchema = new Schema(
       required: true,
     },
     salary: {
+      type: String,
+    },
+    ctcSalary: {
       type: String,
     },
     experience: {
@@ -73,6 +83,13 @@ const availableJobsSchema = new Schema(
     deadline: {
       type: Date,
       required: true,
+    },
+    duration: {
+      type: String,
+      required: true,
+    },
+    perks: {
+      type: [String],
     },
   },
   {
