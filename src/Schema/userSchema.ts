@@ -19,7 +19,6 @@ export interface IUser extends Document {
   userName: string;
   email: string;
   password: string;
-  comparePassword: (candidatePassword: string) => Promise<boolean>;
   role: string;
   firstName: string;
   lastName: string;
@@ -32,6 +31,7 @@ export interface IUser extends Document {
   passWordChangedAt: Date;
   passWordResetToken: string;
   passWordResetExpires: Date;
+  _doc: any;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -61,16 +61,16 @@ const UserSchema = new Schema<IUser>({
       message: (props: any) => `${props.value} is not a valid password!`,
     },
   },
-  comparePassword: {
-    type: String,
-    required: true,
-    trim: true,
-    validate: {
-      validator: function (this: IUser, candidatePassword: string) {
-        return bcrypt.compare(candidatePassword, this.password);
-      },
-    },
-  },
+  // comparePassword: {
+  //   type: String,
+  //   required: true,
+  //   trim: true,
+  //   validate: {
+  //     validator: function (this: IUser, candidatePassword: string) {
+  //       return bcrypt.compare(candidatePassword, this.password);
+  //     },
+  //   },
+  // },
   role: {
     type: String,
     enum: ["candidate", "admin", "hr"],
@@ -118,10 +118,6 @@ const UserSchema = new Schema<IUser>({
   passWordResetExpires: Date,
 });
 
-// UserSchema.methods.comparePassword = async function (
-//   candidatePassword: string
-// ) {
-//   return await bcrypt.compare(candidatePassword, this.password);
-// };
+
 
 export default UserSchema;
