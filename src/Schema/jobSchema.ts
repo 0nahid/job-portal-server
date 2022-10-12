@@ -47,7 +47,7 @@ const jobSchema = new Schema(
       },
       id: {
         type: ObjectId,
-        ref: "Company",
+        ref: "HiringCompany",
       },
     },
     hiringManager: {
