@@ -3,7 +3,7 @@ import { highringCompanyModel } from "../models/hiringCompanyModel";
 
 
 // post data
-const hiringCreate = async (req: Request, res: Response) => {
+const createHrCompany = async (req: Request, res: Response) => {
   try {
     const job = await highringCompanyModel.create(req.body);
     res.status(201).send(job);
@@ -13,9 +13,9 @@ const hiringCreate = async (req: Request, res: Response) => {
 };
 
 // get data
-const hiringGetAll = async (req: Request, res: Response) => {
+const getHrCompanies = async (req: Request, res: Response) => {
     try {
-        const job = await highringCompanyModel.find({});
+        const job = await highringCompanyModel.find({}).populate("hiringManager.id","-password");
         res.status(200).send(job);
     } catch (error) {
         res.status(400).send(error);
@@ -23,4 +23,4 @@ const hiringGetAll = async (req: Request, res: Response) => {
 };
 
 
-export const hiringRouter = { hiringCreate, hiringGetAll };
+export const hiringRouter = { createHrCompany, getHrCompanies };

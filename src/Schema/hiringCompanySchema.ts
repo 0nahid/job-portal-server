@@ -47,10 +47,18 @@ const highringCompanySchema = new Schema({
       ref: "User",
     },
   },
-  jobs: {
-    type: [ObjectId],
-    ref: "Job",
-  },
+  jobs: [
+    {
+      type: ObjectId,
+      ref: "Job",
+    },
+  ],
+  availableJobs: [
+    {
+      type: ObjectId,
+      ref: "AvailableJob",
+    },
+  ],
 });
 
 export default highringCompanySchema;
