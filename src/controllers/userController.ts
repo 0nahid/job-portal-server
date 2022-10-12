@@ -51,11 +51,27 @@ const signUp = async (req: Request, res: Response) => {
       confirmationToken,
       confirmationTokenExpires,
     });
-    await newUser.save();
+
+    const savedUser = await newUser.save();
+
+    // send email
+    const mailData = {
+      to: savedUser.email,
+      subect: "Confirm your email",
+      html: `<h1>Hi ${savedUser.firstName}</h1>
+      <p>Thanks for signing up with us. Please confirm your email by clicking on the link below</p>
+      a href="${req.protocol}://${req.get(
+        "host"
+      )}/api/v1/user/confirm?token=${confirmationToken}&email=${
+        savedUser.email
+      }">Confirm Email</a>`,
+    };
+
     res.status(201).json({
       message: "User created successfully",
       status: 201,
-      data: newUser,
+      data: savedUser,
+      mailData: mailData,
     });
   } catch (error) {
     log.error(error);
@@ -108,4 +124,45 @@ const login = async (req: Request, res: Response) => {
   }
 };
 
-export const userRouter = { signUp, login };
+// confirm user
+const confirmUser = async (req: Request, res: Response) => {
+  try {
+    const { token, email } = req.query;
+
+    log.info(`token: ${token}, email: ${email}`);
+    if (!token || !email) {
+      return res.status(400).send({
+        message: "Token and email required",
+        status: 400,
+      });
+    }
+
+    //   find user by email and token
+    const user = await User.findOne({
+      email,
+      confirmationToken: token,
+      confirmationTokenExpires: { $gt: Date.now() },
+    });
+
+    if (!user) {
+      return res.status(404).send({
+        message: "Token is invalid or expired, please signup again",
+        status: 404,
+      });
+    }
+    user.status = "active";
+    // empty confirmation token & confirmation expires
+    user.confirmationToken = "";
+    user.confirmationTokenExpires = "";
+    await user.save();
+    res.render("confirmation", { user });
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal Server Error",
+      status: 500,
+      error: error,
+    });
+  }
+};
+
+export const userRouter = { signUp, login, confirmUser };
