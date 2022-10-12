@@ -10,12 +10,19 @@ router.post("/login", userRouter.login);
 router.get("/user/confirm", userRouter.confirmUser);
 router.get("/users/me", verifyToken, userRouter.getMe);
 
-router.patch(
-  "/users/:userId",
-  verifyToken,
-  authorization(["admin"]),
-  userRouter.makeUserAsHr
-);
+// router.patch(
+//   "/users/:userId",
+//   verifyToken,
+//   authorization(["admin"]),
+//   userRouter.makeUserAsHr
+// );
+
+router
+  .route("/users/:userId")
+  .get(verifyToken, authorization(["admin"]), userRouter.getUserById)
+  .patch(verifyToken, authorization(["admin"]), userRouter.makeUserAsHr);
+
+router.route("/user/:userId").patch(verifyToken, userRouter.updateUserById);
 
 router.get(
   "/users/all",
