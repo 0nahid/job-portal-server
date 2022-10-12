@@ -9,4 +9,6 @@ router.post("/login", userRouter.login);
 
 router.get("/user/confirm", userRouter.confirmUser);
 
+router.get("/users/all", userRouter.getAllUsers);
+
 export default router;
