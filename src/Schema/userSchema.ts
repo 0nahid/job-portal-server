@@ -26,6 +26,7 @@ export interface IUser extends Document {
   phone: string;
   address: string;
   image: string;
+  status: string;
   confirmationToken: string;
   confirmationTokenExpires: Date | string;
   passWordChangedAt: Date;
@@ -104,6 +105,11 @@ const UserSchema = new Schema<IUser>({
     required: true,
     validate: [validator.isURL, "Please enter a valid URL"],
     default: "https://via.placeholder.com/150",
+  },
+  status: {
+    type: String,
+    enum: ["active", "inactive"],
+    default: "inactive",
   },
   confirmationToken: String,
   confirmationTokenExpires: Date,
