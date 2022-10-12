@@ -17,18 +17,7 @@ const signUp = async (req: Request, res: Response) => {
       phone,
       address,
     } = req.body;
-    if (
-      !userName ||
-      !email ||
-      !password ||
-      !role ||
-      !firstName ||
-      !lastName ||
-      !phone ||
-      !address
-    ) {
-      return res.status(400).json({ message: "All fields are required" });
-    }
+
     const user = await User.findOne({ email });
     if (user) {
       return res.status(400).json({ message: "User already exists" });
@@ -230,6 +219,33 @@ const getHrList = async (req: Request, res: Response) => {
   }
 };
 
+// make user as hr
+const makeUserAsHr = async (req: Request, res: Response) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found with this id",
+        status: 404,
+      });
+    }
+    user.role = "hr";
+    await user.save();
+    res.status(200).json({
+      message: "User is now hr",
+      status: 200,
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal Server Error",
+      status: 500,
+      error: error,
+    });
+  }
+};
+
 export const userRouter = {
   signUp,
   login,
@@ -237,4 +253,5 @@ export const userRouter = {
   getAllUsers,
   getMe,
   getHrList,
+  makeUserAsHr,
 };

@@ -10,6 +10,13 @@ router.post("/login", userRouter.login);
 router.get("/user/confirm", userRouter.confirmUser);
 router.get("/users/me", verifyToken, userRouter.getMe);
 
+router.patch(
+  "/users/:userId",
+  verifyToken,
+  authorization(["admin"]),
+  userRouter.makeUserAsHr
+);
+
 router.get(
   "/users/all",
   verifyToken,
