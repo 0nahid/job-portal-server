@@ -56,7 +56,7 @@ const highringCompanySchema = new Schema({
   availableJobs: [
     {
       type: ObjectId,
-      ref: "AvailableJob",
+      ref: "AvailableJobs",
     },
   ],
 });

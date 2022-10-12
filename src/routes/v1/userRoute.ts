@@ -24,5 +24,4 @@ router.get(
   userRouter.getHrList
 );
 
-
 export default router;
