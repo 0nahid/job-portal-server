@@ -185,5 +185,32 @@ const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
+// get me
+const getMe = async (req: Request, res: Response) => {
+  const email = req.body?.user?.email;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found with this email, please signup first",
+        status: 404,
+      });
+    }
+    const { password, ...data } = user._doc;
+    res.status(200).json({
+      status: "success",
+      data: {
+        data,
+      },
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal Server Error",
+      status: 500,
+      error: error,
+    });
+  }
+}
 
-export const userRouter = { signUp, login, confirmUser , getAllUsers};
+
+export const userRouter = { signUp, login, confirmUser , getAllUsers, getMe };

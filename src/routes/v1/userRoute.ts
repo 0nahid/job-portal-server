@@ -11,4 +11,6 @@ router.get("/user/confirm", userRouter.confirmUser);
 
 router.get("/users/all", userRouter.getAllUsers);
 
+router.get("/users/me", userRouter.getMe);
+
 export default router;
