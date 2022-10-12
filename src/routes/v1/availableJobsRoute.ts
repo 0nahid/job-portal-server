@@ -7,4 +7,6 @@ router
   .post(availableJobsRouter.createAvailableJob)
   .get(availableJobsRouter.getAllAvailableJobs);
 
+router.route("/:id").get(availableJobsRouter.getAvailableJobById);
+
 export default router;

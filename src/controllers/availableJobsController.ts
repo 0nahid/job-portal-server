@@ -25,10 +25,34 @@ const createAvailableJob = async (req: Request, res: Response) => {
 const getAllAvailableJobs = async (req: Request, res: Response) => {
   try {
     const jobs = await availableJobs.find({});
-    res.status(200).send(jobs);
+    res.status(200).send({
+      message: "All jobs",
+      jobs,
+    });
   } catch (error) {
     res.status(400).send(error);
   }
 };
 
-export const availableJobsRouter = { createAvailableJob, getAllAvailableJobs };
+// get data by id
+const getAvailableJobById = async (req: Request, res: Response) => {
+  try {
+    const job = await availableJobs
+      .findById(req.params.id)
+      .populate("hiringCompany.id")
+      .populate("hiringManager.id")
+      .populate("jobId.id")
+    res.status(200).send({
+      message: "Job",
+      job,
+    });
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+export const availableJobsRouter = {
+  createAvailableJob,
+  getAllAvailableJobs,
+  getAvailableJobById,
+};

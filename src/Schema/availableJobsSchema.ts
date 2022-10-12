@@ -51,7 +51,7 @@ const availableJobsSchema = new Schema(
       },
       status: {
         type: String,
-        required: true,
+        // required: true,
         enum: {
           values: ["open", "closed"],
           message:

@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from "express";
+import log from "../utils/logger";
 const authorization = (roles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const role = req.body?.user?.role;
@@ -8,7 +9,7 @@ const authorization = (roles: string[]) => {
         status: 401,
       });
     }
-    console.log(`role: ${role}`);
+   log.info(`role: ${role}`);
     next();
   };
 };
