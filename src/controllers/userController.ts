@@ -49,14 +49,11 @@ const signUp = async (req: Request, res: Response) => {
     const mailData = {
       to: savedUser.email,
       subject: "Confirm your email",
-      html: `
-      <span><h1>Hi ${
-        savedUser.firstName
-      }</h1></span> , Thanks for signing up with us.
-       
-      <p> Your confirmation code is <strong>${confirmationToken}</strong> </p>
+      html: `Hi  ${savedUser.firstName}  ,
+      <p>Thanks for signing up with us. </p>
+      <p> Your confirmation code is <strong>${confirmationToken}</strong> </p>      
       <p>Type the confirmation code on verification page or click on the link below</p>
-      a href="${req.protocol}://${req.get(
+      <a href="${req.protocol}://${req.get(
         "host"
       )}/api/v1/user/confirm?token=${confirmationToken}&email=${
         savedUser.email
