@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
 import { User } from "../models/userModel";
+import sendMailWIthGmail from "../utils/email";
 import { generateToken } from "../utils/generateToken";
 import log from "../utils/logger";
 
@@ -47,15 +48,36 @@ const signUp = async (req: Request, res: Response) => {
     // send email
     const mailData = {
       to: savedUser.email,
-      subect: "Confirm your email",
-      html: `<h1>Hi ${savedUser.firstName}</h1>
-      <p>Thanks for signing up with us. Please confirm your email by clicking on the link below</p>
+      subject: "Confirm your email",
+      html: `
+      <span><h1>Hi ${
+        savedUser.firstName
+      }</h1></span> , Thanks for signing up with us.
+       
+      <p> Your confirmation code is <strong>${confirmationToken}</strong> </p>
+      <p>Type the confirmation code on verification page or click on the link below</p>
       a href="${req.protocol}://${req.get(
         "host"
       )}/api/v1/user/confirm?token=${confirmationToken}&email=${
         savedUser.email
-      }">Confirm Email</a>`,
+      }">Confirm Email</a>
+
+      <p>${req.protocol}://${req.get(
+        "host"
+      )}/api/v1/user/confirm?token=${confirmationToken}&email=${
+        savedUser.email
+      }</p> Or copy the link and paste it in your browser
+      
+
+      <p>Thanks</p>
+
+
+      <p>If you didn't sign up with us, please ignore this email</p>
+      `,
     };
+
+    // send mail
+    await sendMailWIthGmail(mailData);
 
     res.status(201).json({
       message: "User created successfully",
