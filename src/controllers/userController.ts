@@ -325,7 +325,7 @@ const uploadProfileImage = async (req: Request, res: Response) => {
       status: "success",
       message: "Image uploaded",
       data: req.file,
-      imageUrl : `${req.protocol}://${req.get("host")}/uploads/${req.file?.filename}`
+      imageUrl : `${req.protocol}://${req.get("host")}/${req.file?.path}`
     });
   } catch (error) {
     res.status(400).json({

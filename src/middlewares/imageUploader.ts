@@ -1,7 +1,7 @@
 import multer from "multer";
 import path from "path";
 const storage = multer.diskStorage({
-  destination: "uploads/",
+  destination: "uploads/profile",
   filename: function (req, file, cb) {
     const uniqueSuffix = Math.round(Math.random() * 1e9);
     cb(
