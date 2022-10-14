@@ -7,15 +7,18 @@ const app: Application = express();
 app.use(cors());
 app.use(express.json());
 
+/* express file system */
+app.use("/uploads", express.static("uploads"));
+
 // set the view engine to ejs
 app.set("view engine", "ejs");
 
 /* here will be all the imports routes */
 
-import jobRoute from "./routes/v1/jobRouter";
-import hiringRoute from "./routes/v1/hiringRouter";
-import userRoute from "./routes/v1/userRoute";
 import availableJobsRoute from "./routes/v1/availableJobsRoute";
+import hiringRoute from "./routes/v1/hiringRouter";
+import jobRoute from "./routes/v1/jobRouter";
+import userRoute from "./routes/v1/userRoute";
 
 /* here will be the all the routes */
 app.get("/", (req: Request, res: Response) => {

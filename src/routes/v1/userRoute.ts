@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { userRouter } from "../../controllers/userController";
 import { authorization } from "../../middlewares/authorization";
+import { imageUploader } from "../../middlewares/imageUploader";
 import { verifyToken } from "../../middlewares/verifyToken";
 
 const router: Router = Router();
@@ -9,7 +10,11 @@ router.post("/signup", userRouter.signUp);
 router.post("/login", userRouter.login);
 router.get("/user/confirm", userRouter.confirmUser);
 router.get("/user/me", verifyToken, userRouter.getMe);
-
+router.post(
+  "/user/image/upload",
+  imageUploader.single("profile"),
+  userRouter.uploadProfileImage
+);
 router.get(
   "/user/all",
   verifyToken,

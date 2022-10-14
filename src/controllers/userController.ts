@@ -318,6 +318,23 @@ const updateUserById = async (req: Request, res: Response) => {
   }
 };
 
+// upload profile image
+const uploadProfileImage = async (req: Request, res: Response) => {
+  try {
+    res.status(200).json({
+      status: "success",
+      message: "Image uploaded",
+      data: req.file,
+      imageUrl : `${req.protocol}://${req.get("host")}/uploads/${req.file?.filename}`
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "fail",
+      message: error,
+    });
+  }
+};
+
 
 
 export const userRouter = {
@@ -330,4 +347,5 @@ export const userRouter = {
   makeUserAsHr,
   getUserById,
   updateUserById,
+  uploadProfileImage,
 };
