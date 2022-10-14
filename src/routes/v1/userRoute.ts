@@ -8,34 +8,30 @@ const router: Router = Router();
 router.post("/signup", userRouter.signUp);
 router.post("/login", userRouter.login);
 router.get("/user/confirm", userRouter.confirmUser);
-router.get("/users/me", verifyToken, userRouter.getMe);
-
-// router.patch(
-//   "/users/:userId",
-//   verifyToken,
-//   authorization(["admin"]),
-//   userRouter.makeUserAsHr
-// );
-
-router
-  .route("/users/:userId")
-  .get(verifyToken, authorization(["admin"]), userRouter.getUserById)
-  .patch(verifyToken, authorization(["admin"]), userRouter.makeUserAsHr);
-
-router.route("/user/:userId").patch(verifyToken, userRouter.updateUserById);
+router.get("/user/me", verifyToken, userRouter.getMe);
 
 router.get(
-  "/users/all",
+  "/user/all",
   verifyToken,
   authorization(["admin"]),
   userRouter.getAllUsers
 );
 
 router.get(
-  "/users/hrs",
+  "/user/hrs",
   verifyToken,
   authorization(["admin", "hr"]),
   userRouter.getHrList
 );
+
+router
+  .route("/user/:userId")
+  .get(verifyToken, authorization(["admin"]), userRouter.getUserById);
+
+router
+  .route("/user/promote/:userId")
+  .patch(verifyToken, authorization(["admin"]), userRouter.makeUserAsHr);
+
+router.route("/user/:userId").patch(verifyToken, userRouter.updateUserById);
 
 export default router;

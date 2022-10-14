@@ -83,7 +83,6 @@ const signUp = async (req: Request, res: Response) => {
       mailData: mailData,
     });
   } catch (error) {
-    log.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -318,6 +317,8 @@ const updateUserById = async (req: Request, res: Response) => {
     });
   }
 };
+
+
 
 export const userRouter = {
   signUp,
