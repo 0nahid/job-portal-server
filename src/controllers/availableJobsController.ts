@@ -39,9 +39,13 @@ const getAvailableJobById = async (req: Request, res: Response) => {
   try {
     const job = await availableJobs
       .findById(req.params.id)
-      .populate("hiringCompany.id")
-      .populate("hiringManager.id")
-      .populate("jobId.id")
+      .populate({
+        path: "hiringCompany.id",
+        populate: {
+          path: "availableJobs",
+        },
+      })
+      .populate("hiringManager.id", "-password");
     res.status(200).send({
       message: "Job",
       job,

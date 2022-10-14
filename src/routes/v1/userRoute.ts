@@ -36,6 +36,13 @@ router.get(
   userRouter.getHrList
 );
 
+router.get(
+  "/manager/jobs",
+  verifyToken,
+  authorization(["hr", "admin"]),
+  userRouter.getJobsByHrId
+);
+
 router
   .route("/user/:userId")
   .get(verifyToken, authorization(["admin"]), userRouter.getUserById);

@@ -1,9 +1,9 @@
 import bcrypt from "bcrypt";
 import { Request, Response } from "express";
+import { availableJobs } from "../models/avaiableJobsModel";
 import { User } from "../models/userModel";
 import sendMailWIthGmail from "../utils/email";
 import { generateToken } from "../utils/generateToken";
-import log from "../utils/logger";
 
 // post data
 const signUp = async (req: Request, res: Response) => {
@@ -325,7 +325,7 @@ const uploadProfileImage = async (req: Request, res: Response) => {
       status: "success",
       message: "Image uploaded",
       data: req.file,
-      imageUrl : `${req.protocol}://${req.get("host")}/${req.file?.path}`
+      imageUrl: `${req.protocol}://${req.get("host")}/${req.file?.path}`,
     });
   } catch (error) {
     res.status(400).json({
@@ -342,7 +342,7 @@ const uploadResumeFile = async (req: Request, res: Response) => {
       status: "success",
       message: "Resume uploaded",
       data: req.file,
-      resumeUrl : `${req.protocol}://${req.get("host")}/${req.file?.path}`
+      resumeUrl: `${req.protocol}://${req.get("host")}/${req.file?.path}`,
     });
   } catch (error) {
     res.status(400).json({
@@ -352,8 +352,26 @@ const uploadResumeFile = async (req: Request, res: Response) => {
   }
 };
 
-
-
+// get all the jobs posted by a specific hr mail
+const getJobsByHrId = async (req: Request, res: Response) => {
+  const email = req.body?.user?.email;
+  console.log(email);
+  
+  try {
+    const jobs = await availableJobs.find({ postedBy: email });
+    res.status(200).json({
+      message: "All jobs by hr id",
+      status: 200,
+      data: jobs,
+    });
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal Server Error",
+      status: 500,
+      error: error,
+    });
+  }
+};
 
 export const userRouter = {
   signUp,
@@ -366,5 +384,6 @@ export const userRouter = {
   getUserById,
   updateUserById,
   uploadProfileImage,
-  uploadResumeFile
+  uploadResumeFile,
+  getJobsByHrId,
 };

@@ -26,12 +26,6 @@ const availableJobsSchema = new Schema(
         ref: "User",
       },
     },
-    jobId: {
-      id: {
-        type: ObjectId,
-        ref: "Job",
-      },
-    },
     jobType: {
       type: String,
       required: true,

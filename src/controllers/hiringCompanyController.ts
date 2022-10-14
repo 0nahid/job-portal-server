@@ -29,7 +29,12 @@ const getHrCompanyById = async (req: Request, res: Response) => {
     const job = await highringCompanyModel
       .findById(req.params.id)
       .populate("hiringManager.id", "userName email firstName lastName image")
-      .populate("availableJobs");
+      .populate({
+        path: "availableJobs",
+        populate: {
+          path: "hiringManager.id",
+        },
+      });
     res.status(200).send({
       message: "Job",
       job,
